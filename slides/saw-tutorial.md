@@ -2,6 +2,14 @@
 % Aaron Tomb
 % IEEE SecDev --- September 30, 2018
 
+# Agenda
+
+TODO
+
+# Installing SAW
+
+TODO: use Docker?
+
 # What is SAW?
 
 * A tool to construct \alert{models} of program behavior
@@ -711,3 +719,5 @@ TODO
     * Cryptol documentation: https://cryptol.net/documentation.html
 
     * These examples and slides: TODO link
+
+  * If this sort of thing interests you, Galois is hiring!
