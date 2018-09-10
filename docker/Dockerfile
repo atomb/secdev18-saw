@@ -1,8 +1,8 @@
-FROM debian:stretch
+FROM debian:stretch-slim
 
 USER root
 RUN apt-get update
-RUN apt-get install -y zlibc zlib1g clang unzip wget libgmp10
+RUN apt-get install -y zlibc zlib1g clang unzip wget libgmp10 vim emacs
 
 RUN wget --quiet http://yices.csl.sri.com/releases/2.6.0/yices-2.6.0-x86_64-pc-linux-gnu-static-gmp.tar.gz
 RUN wget --quiet https://github.com/Z3Prover/z3/releases/download/z3-4.7.1/z3-4.7.1-x64-debian-8.10.zip
