@@ -15,7 +15,7 @@ install:
   - tar -xzvf /tmp/yices.tar.gz
   - tar -xzvf /tmp/saw.tar.gz
     # Test run
-  - export PATH=$PATH:$(pwd)/yices-*/bin:$(pwd)/z3-*/bin:$(pwd)/saw-*/bin
+  - export PATH=$PATH:$(pwd)/yices-2.6.0/bin:$(pwd)/z3-4.7.1-x64-ubuntu-14.04/bin:$(pwd)/saw-0.2-2018-08-28-Ubuntu14.04-64/bin
   - echo $PATH
   - z3 --version
   - yices-smt2 --version
