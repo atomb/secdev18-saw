@@ -16,6 +16,7 @@ install:
   - tar -xzvf /tmp/saw.tar.gz
     # Test run
   - export PATH=$PATH:$(pwd)/yices-*/bin:$(pwd)/z3-*/bin:$(pwd)/saw-*/bin
+  - echo $PATH
   - z3 --version
   - yices-smt2 --version
   - saw --version
