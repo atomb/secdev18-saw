@@ -4,11 +4,52 @@
 
 # Agenda
 
-TODO
+## SAW Basics (Session A: 1:30 -- 3:00)
+
+* Installation and configuration (~15m)
+
+* Basic overview of SAW (~15m)
+
+* Exercises (~20m)
+
+* Verifying heap operations (~15m)
+
+* Exercises (~20m)
+
+## Advanced Use and CI (Session B: 3:30 -- 5:00)
+
+* Composition
+*  (~10m)
+
+* Advanced proof techniques (~10m)
+
+* Exercises (~20m)
+
+* Build integration (~10m)
+
+* Travis (~10m)
+
+* Exercises (~20m)
+
+* Wrap up (~5m)
 
 # Installing SAW
 
-TODO: use Docker?
+* Option 1: manual installation
+
+    * LLVM + Clang: http://releases.llvm.org/download.html#6.0.1
+
+    * Yices: http://yices.csl.sri.com/
+
+    * Z3: https://github.com/Z3Prover/z3/releases/tag/z3-4.7.1
+
+    * SAW: https://saw.galois.com/builds/nightly/
+
+* Option 2: Docker container
+
+    * `docker pull atomb/saw-secdev18`
+
+    * `docker run --rm -it atomb/saw-secdev18`
 
 # What is SAW?
 
@@ -355,9 +396,9 @@ print r;
 
 # Exercises: FFS
 
-0. Run the equivalence proofs in `ffs_eq.saw` and `ffs_harness.saw`
+1. Run the equivalence proofs in `ffs_eq.saw` and `ffs_harness.saw`
 
-1. Port the FFS code to use `uint64_t`
+2. Port the FFS code to use `uint64_t`
 
   * Translate both reference and implementation
 
@@ -668,9 +709,19 @@ prove_print (unint_yices ["g"]) t2;
 
     * With prover other than `abc`, check `saw` CPU use
 
-# Continuous Integration
+# Integrating SAW with Build Process
 
 TODO
+
+# Continuous Integration with Travis
+
+* Travis is a slight variation from local builds
+
+    * Download Z3 binaries (other provers, if needed)
+
+    * Download SAW binaries
+
+* Caching binaries (e.g., on S3) can improve reliability
 
 # Future
 
@@ -701,6 +752,23 @@ TODO
 * Proof of the absence of undefined behavior or assertion failures
 
     * https://github.com/GaloisInc/saw-script/tree/master/examples/sv-comp
+
+# Future
+
+* Better support for unbounded programs
+
+    * Data: variable-size and variable-shape heap structures
+    * Control: unbounded iteration
+
+* More flexible scripting language
+
+    * May expose SAWScript functions as an API for other languages (Python?)
+
+* Analysis of more languages
+
+    * Partial support for Rust, Go, various forms of machine code
+
+* TODO: anything else?
 
 # Final Points
 
