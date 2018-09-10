@@ -23,4 +23,7 @@ WORKDIR /home/saw
 ENV LANG C.UTF-8
 # ADD examples
 
+ADD examples .
+ADD salsa20 .
+
 ENTRYPOINT ["/bin/bash"]
