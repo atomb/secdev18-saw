@@ -22,4 +22,4 @@ install:
   - saw --version
 
 script:
-  - make -C salsa20 run
+  - cd salsa20 && saw salsa-compositional.saw
