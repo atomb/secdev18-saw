@@ -18,8 +18,7 @@
 
 ## Advanced Use and CI (Session B: 3:30 -- 5:00)
 
-* Composition
-*  (~10m)
+* Composition (~10m)
 
 * Advanced proof techniques (~10m)
 
@@ -43,13 +42,16 @@
 
     * Z3: https://github.com/Z3Prover/z3/releases/tag/z3-4.7.1
 
-    * SAW: https://saw.galois.com/builds/nightly/
+    * SAW: https://saw.galois.com/builds/nightly/ (tested with 2018-08-26)
 
 * Option 2: Docker container
 
-    * `docker pull atomb/saw-secdev18`
+    * `docker pull atomb/secdev18-saw`
 
-    * `docker run --rm -it atomb/saw-secdev18`
+    * `docker run --rm -it atomb/secdev18-saw`
+
+(Leave out the `--rm` if you want to save changes you make during
+your session.)
 
 # What is SAW?
 
@@ -273,6 +275,22 @@ int main() {
     \path[->,dashed] (crucible) edge [bend left] node[slabel] {other method} (sawcore);
     \draw [->,dashed] (sawcore) -- (oout);
 \end{tikzpicture}
+
+# Generating LLVM Bitcode for SAW
+
+* SAW supports C through LLVM
+
+* The Clang compiler translates C source to LLVM "bitcode"
+
+* Basic use, to produce `file.bc`:
+
+        clang -c -emit-llvm file.c
+
+* For large, complex projects, `wllvm` is convenient. For example:
+
+        CC=wllvm CXX=wllvm++ ./configure && make
+
+* Get `wllvm` here: <https://github.com/travitch/whole-program-llvm>
 
 # SAWScript
 
@@ -709,19 +727,51 @@ prove_print (unint_yices ["g"]) t2;
 
     * With prover other than `abc`, check `saw` CPU use
 
-# Integrating SAW with Build Process
+# Onward to Continuous Integration
 
-TODO
+TODO: make better
+
+* SAW verification \alert{configurations} are manual
+
+* But \alert{executing} a script can be automated
+
+* Scripts need only change when \alert{interfaces} change
+
+* So running verification scripts in CI systems can automatically
+re-check many code changes
 
 # Continuous Integration with Travis
 
-* Travis is a slight variation from local builds
+1. Download SAW binaries
+    - From https://saw.galois.com/builds/nightly
 
-    * Download Z3 binaries (other provers, if needed)
+1. Download prover binaries
+    - Yices from http://yices.csl.sri.com
+    - Z3 from https://github.com/Z3Prover/z3/releases
 
-    * Download SAW binaries
+1. Unpack everything and put binaries in the `PATH`
+
+1. Run `saw` on a script file
 
 * Caching binaries (e.g., on S3) can improve reliability
+
+# Tips and Tricks for Travis
+
+* TODO: show config file
+
+* TODO: mention using side branches for testing, and deleting them later?
+
+# Proof Maintenance
+
+* TODO
+
+# Exercises: Travis
+
+* TODO: create a simple project, get it to pass
+
+* TODO: create a branch for a change
+
+* TODO: make a mistake, and push
 
 # Future
 
@@ -786,6 +836,6 @@ TODO
 
     * Cryptol documentation: https://cryptol.net/documentation.html
 
-    * These examples and slides: TODO link
+    * These examples and slides: https://github.com/atomb/secdev18-saw
 
   * If this sort of thing interests you, Galois is hiring!

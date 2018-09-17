@@ -17,7 +17,7 @@ Z3 SMT solver. To install those tools individually:
 
   * LLVM + Clang: http://releases.llvm.org/download.html#6.0.1
 
-  * SAW: https://saw.galois.com/builds/nightly (tested with 2018-09-17)
+  * SAW: https://saw.galois.com/builds/nightly (tested with 2018-08-26)
 
   * Yices: http://yices.csl.sri.com/ (tested with v2.6.0)
 
