@@ -21,9 +21,8 @@ RUN useradd -U -m saw
 USER saw
 WORKDIR /home/saw
 ENV LANG C.UTF-8
-# ADD examples
 
-COPY examples examples
-COPY salsa20 salsa20
+COPY --chown=saw:saw examples examples
+COPY --chown=saw:saw salsa20 salsa20
 
 ENTRYPOINT ["/bin/bash"]
