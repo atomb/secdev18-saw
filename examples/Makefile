@@ -17,9 +17,12 @@ run: ${LOGFILES}
 	${SAW} $< 2>&1 | tee $@
 
 clean:
-	rm -f ${BCFILES} ${LOGFILES} *.cnf
+	rm -f ${BCFILES} ${LOGFILES} deps.mk *.cnf
 
-deps.mk:
+deps.mk: ${CFILES}
 	./mkdeps.sh
 
+swap-correct.bc: xor-swap.c direct-swap.c
+swap-manual.bc: swap-correct.c xor-swap.c direct-swap.c
+swap-random.bc: swap-correct.c xor-swap.c direct-swap.c
 -include deps.mk
