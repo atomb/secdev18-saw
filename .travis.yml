@@ -9,13 +9,13 @@ install:
     # Download
   - curl -L --retry 3 https://github.com/Z3Prover/z3/releases/download/z3-4.7.1/z3-4.7.1-x64-ubuntu-14.04.zip --output /tmp/z3.zip
   - curl -L --retry 3 http://yices.csl.sri.com/releases/2.6.0/yices-2.6.0-x86_64-pc-linux-gnu-static-gmp.tar.gz --output /tmp/yices.tar.gz
-  - curl -L --retry 3 https://saw.galois.com/builds/nightly/saw-0.2-2018-09-13-Ubuntu14.04-64.tar.gz --output /tmp/saw.tar.gz
+  - curl -L --retry 3 https://saw.galois.com/builds/nightly/saw-0.2-2018-08-26-Ubuntu14.04-64.tar.gz --output /tmp/saw.tar.gz
     # Unpack
   - unzip /tmp/z3.zip
   - tar -xzvf /tmp/yices.tar.gz
   - tar -xzvf /tmp/saw.tar.gz
     # Test run
-  - export PATH=$PATH:$(pwd)/yices-2.6.0/bin:$(pwd)/z3-4.7.1-x64-ubuntu-14.04/bin:$(pwd)/saw-0.2-2018-09-13-Ubuntu14.04-64/bin
+  - export PATH=$PATH:$(pwd)/yices-2.6.0/bin:$(pwd)/z3-4.7.1-x64-ubuntu-14.04/bin:$(pwd)/saw-0.2-2018-08-26-Ubuntu14.04-64/bin
   - echo $PATH
   - z3 --version
   - yices-smt2 --version
