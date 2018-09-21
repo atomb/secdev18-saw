@@ -15,7 +15,7 @@ To run the examples, you'll need several things: the Clang compiler,
 the Software Analysis Workbench (SAW), the Yices SMT solver, and the
 Z3 SMT solver. To install those tools individually:
 
-  * LLVM + Clang: http://releases.llvm.org/download.html#6.0.1
+  * LLVM + Clang: http://releases.llvm.org/download.html
 
   * SAW: https://saw.galois.com/builds/nightly (tested with 2018-08-26)
 
