@@ -128,6 +128,8 @@ int swap_correct(uint32_t x, uint32_t y) {
 }
 ~~~~
 
+(See `direct-swap.c` and `swap-correct.c`.)
+
 ## Manual Swap Testing
 
 ~~~~ .c
@@ -321,7 +323,7 @@ model <- llvm_extract m "swap_correct" llvm_pure;
 thm <- prove_print abc {{ \x y -> model x y != 0 }};
 ~~~~
 
-(In `swap_harness.saw`)
+(See `swap_harness.saw`)
 
 ## FFS Example
 
@@ -345,6 +347,8 @@ uint32_t ffs_imp(uint32_t i) {
   return (i) ? (n+((i+1) & 0x01)) : 0;
 }
 ~~~~
+
+(See `ffs.c`.)
 
 ## Manual FFS Testing
 
@@ -400,7 +404,7 @@ print "Failing to prove ffs_bug_correct returns true...";
 prove_print abc {{ \x -> bug_correct x == 1 }};
 ~~~~
 
-(In `ffs_harness.saw`)
+(See `ffs_harness.saw`)
 
 ## Verifying FFS Without Wrapper
 
@@ -415,7 +419,7 @@ r <- time (prove abc {{ ref === imp }});
 print r;
 ~~~~
 
-(In `ffs_eq.saw`)
+(See `ffs_eq.saw`)
 
 ## Exercises: FFS
 
@@ -431,7 +435,7 @@ print r;
 
 1. Try to discover the "haystack" bug in `ffs_bug`
 
-    * Use random testing (`ffs_bug_fail.saw`)
+    * Use random testing (`ffs_bug_fail.saw`, uses SAW for testing)
 
         * Increase the number of tests and see how long it takes
 
@@ -497,7 +501,7 @@ let swap_spec = do {
 crucible_llvm_verify m "swap_xor" [] true swap_spec abc;
 ~~~~
 
-(In `swap.saw`, comparing all versions)
+(See `swap.saw`, comparing all versions)
 
 ## Simplifying the XOR Swap specification
 
