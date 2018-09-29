@@ -6,29 +6,25 @@
 
 ## SAW Basics (Session A: 1:30 -- 3:00)
 
-* Installation and configuration (~15m)
+* Installation and configuration
 
-* Basic overview of SAW (~15m)
+* Basic overview of SAW
 
-* Exercises (~20m)
+* TODO: more
 
-* Verifying heap operations (~15m)
-
-* Exercises (~20m)
+* Verifying heap operations
 
 ## Advanced Use and CI (Session B: 3:30 -- 5:00)
 
-* Composition (~10m)
+* Composition
 
-* Advanced proof techniques (~10m)
+* Advanced proof techniques
 
-* Exercises (~20m)
+* Build integration
 
-* Build integration (~10m)
+* Travis
 
-* Travis (~10m)
-
-* Exercises (~20m)
+* Examples from s2n
 
 * Wrap up (~5m)
 
@@ -36,13 +32,14 @@
 
 * Option 1: manual installation
 
-    * LLVM + Clang: http://releases.llvm.org/download.html (most versions work)
+    * LLVM + Clang: <http://releases.llvm.org/download.html> (most
+      versions work, including those from Xcode)
 
-    * Yices: http://yices.csl.sri.com/ (most tested with v2.6.0)
+    * Yices: <http://yices.csl.sri.com/> (most tested with v2.6.0)
 
-    * Z3: https://github.com/Z3Prover/z3/releases/tag/z3-4.7.1
+    * Z3: <https://github.com/Z3Prover/z3/releases/tag/z3-4.7.1>
 
-    * SAW: https://saw.galois.com/builds/nightly/ (tested with 2018-08-26)
+    * SAW: <https://saw.galois.com/builds/nightly/> (tested with 2018-08-26)
 
 * Option 2: Docker container
 
@@ -50,14 +47,15 @@
 
     * `docker run --rm -it atomb/secdev18-saw`
 
-(Leave out the `--rm` if you want to save changes you make during
-your session.)
+* Also, check out examples and slides
+
+    * git clone <https://github.com/atomb/secdev18-saw>
 
 # What is SAW?
 
 * A tool to construct \alert{models} of program behavior
 
-    * Works with C (LLVM), Java (JVM), and others in progress
+    * Works with *C (LLVM)*, Java (JVM), and others in progress
 
     * Also supports specifications written in Cryptol (TODO: say more)
 
@@ -73,15 +71,11 @@ your session.)
 
     * Similar level of effort to testing
 
+    * Automatically repeatable once configured; great for CI
+
 # Property Based Testing
 
 * Rather than testing individual cases, state general properties
-
-* Then can test those properties on specific values
-
-    * Manually selected
-
-    * Randomly generated
 
 * For example, this function should always return a non-zero value:
 
@@ -90,6 +84,12 @@ int add_commutes(uint32_t x, uint32_t y) {
     return x + y == y + x;
 }
 ~~~~
+
+* Then can test those properties on specific values
+
+    * Manually selected
+
+    * Randomly generated
 
 * The QuickCheck approach is a common implementation of this paradigm
 
@@ -107,6 +107,8 @@ void swap_xor(uint32_t *x, uint32_t *y) {
 
 * Focus on values, since that's where the tricky parts are
     * Pointers used just so it can be a separate function
+
+* TODO: file
 
 # A Specification for Swapping
 
@@ -180,16 +182,9 @@ int main() {
 
 # Translating Programs to Pure Functions
 
-* $\lambda x.~x + 1$ is a function
+* Pure function: equal arguments go to equal results (TODO)
 
-    * takes an argument $x$, and returns $x + 1$
-
-* `swap_direct`: $\lambda (x, y).~(y, x)$
-
-* `swap_xor`: $\lambda (x, y).~(x \oplus y \oplus x \oplus y \oplus y, x
-  \oplus y \oplus y)$
-
-    * but $x \oplus x \equiv 0$, $x \oplus 0 \equiv x$, and $x \oplus y \equiv y \oplus x$
+* $\lambda x.~x + 1$ takes an argument $x$, and returns $x + 1$
 
 * Translation achieved in SAW using a technique called \alert{symbolic execution}
 
@@ -198,6 +193,13 @@ int main() {
     * Every variable's value at the end is an expression representing
       \alert{all possible values} it might take
 
+* `swap_direct`: $\lambda (x, y).~(y, x)$
+
+* `swap_xor`: $\lambda (x, y).~(x \oplus y \oplus x \oplus y \oplus y, x
+  \oplus y \oplus y)$
+
+    * but $x \oplus x \equiv 0$, $x \oplus 0 \equiv x$, and $x \oplus y \equiv y \oplus x$
+
 # SAT and SMT Solvers
 
 * Automated provers for mathematical theorems
@@ -205,11 +207,7 @@ int main() {
     * Such as: $\forall x, y.~(x \oplus y \oplus x \oplus y \oplus y, x
       \oplus y \oplus y) \equiv (y, x)$
 
-* SAT = Boolean SATisfiability
-
-* SMT = Satisfiability Modulo Theories
-
-* Almost magic for what they can do. SAT can encode:
+* SAT = Boolean SATisfiability. Can encode:
 
     * Fixed-size bit vectors (even multiplication, but slowly)
 
@@ -217,7 +215,7 @@ int main() {
 
     * Conditionals
 
-* SMT adds things like:
+* SMT = Satisfiability Modulo Theories. Adds things like:
 
     * Linear arithmetic on integers
 
@@ -383,7 +381,13 @@ int main() {
 }
 ~~~~
 
+* Even exhaustive testing possible in this case
+
+    * But not for 64-bit inputs
+
 # Verifying FFS Harness
+
+TODO: not equal zero in the following?
 
 ~~~~
 m <- llvm_load_module "ffs.bc";
@@ -417,19 +421,19 @@ print r;
 
 # Exercises: FFS
 
-1. Run the equivalence proofs in `ffs_eq.saw` and `ffs_harness.saw`
+1. (TODO: remove) Run the equivalence proofs in `ffs_eq.saw` and `ffs_harness.saw`
 
 2. Port the FFS code to use `uint64_t`
 
     * Translate both reference and implementation
 
-    * Which one is wrong?
+    * Try to prove equivalence (and don't worry if you fail)
 
-2. Try to break the FFS code, in obvious and subtle ways
+3. Try to break the FFS code, in obvious and subtle ways
 
     * Can you make it do the wrong thing and not be caught?
 
-3. Try to discover the "haystack" bug in `ffs_bug`
+4. Try to discover the "haystack" bug in `ffs_bug`
 
     * Use random testing (`ffs_bug_fail.saw`)
 
@@ -502,11 +506,11 @@ crucible_llvm_verify m "swap_xor" [] true swap_spec abc;
 
 * Verifications in SAW consist of three phases
 
-    * Initialize a starting state
+    * Initialize a (symbolic!) starting state
 
-    * Run the target code in that state
+    * Run the target code (symbolically) in that state
 
-    * Check that the final state is correct
+    * Check that the final state is correct (using automated provers)
 
 * Commands like `llvm_extract` just simplify a common case
 
@@ -531,6 +535,10 @@ void s20_rowround(uint32_t y[static 16]) {
   // ... and three more
 }
 ~~~~
+
+# TODO: pointers revisited
+
+TODO: repeat definition of ptr_to_fresh
 
 # Composition: Specifying Salsa20 (SAW code)
 
@@ -565,6 +573,10 @@ rr <- verify "s20_rowround"     [qr] rowround_setup;
 
 * Can have multiple previously-verified facts about one function
 
+    * For example, different array sizes
+
+    * Used only for the top level of Salsa20
+
 # Sidebar: Array Sizes and Looping
 
 * With the current version of SAW, programs must be \alert{finite}
@@ -587,7 +599,7 @@ rr <- verify "s20_rowround"     [qr] rowround_setup;
 
 # Exercises: Composition
 
-1. Run the monolithic and compositional proofs
+1. (TODO: remove) Run the monolithic and compositional proofs
 
     * `salsa.saw` and `salsa-compositional.saw`
 
@@ -616,6 +628,8 @@ rr <- verify "s20_rowround"     [qr] rowround_setup;
     * `z3`: good for integer problems
 
 * Others are available, but less frequently useful
+
+    * I usually use `yices`
 
 # Offline Provers
 
@@ -654,6 +668,10 @@ let { x@1 = Prelude.Vec 8 Prelude.Bool }
 ~~~~
 (See `unfold.saw`.)
 
+# TODO: Unfolding and Simplification
+
+TODO
+
 # Uninterpreted Functions
 
 ~~~~
@@ -674,6 +692,10 @@ prove_print (unint_yices ["f"]) {{ prop2 }};
 ~~~~
 (See `unint.saw`.)
 
+# TODO: Uninterpreted Functions
+
+TODO
+
 # Rewriting
 
 ~~~~
@@ -692,29 +714,40 @@ prove_print (unint_yices ["g"]) t2;
 ~~~~
 (See `rewrite.saw`.)
 
+# TODO: Rewriting
+
+TODO
+
 # Proof Scripts
 
-* Instead of just a prover, can have multiple tactics in a `do` block
+* Commands like `prove` and `crucible_llvm_verify` use \alert{proof scripts}
 
-* Term manipulation available:
-
-    * `unfold_term` becomes `unfolding`
-
-    * `rewrite` becomes `simplify`
-
-* Skip proof with `assume_unsat`
-
-* Match `True` with `trivial`
+* Instead of just a \alert{prover}, can have multiple \alert{tactics}
+  in a `do` block
 
 * Show current goal with `print_goal`
 
     * Also `print_goal_size` and `print_goal_consts`
 
+* Term manipulation
+
+    * `unfold_term` becomes `unfolding`
+
+    * `rewrite` becomes `simplify`
+
+* Finish proof by:
+
+    * Skip proof with `assume_unsat`
+
+    * Match `True` with `trivial`
+
+    * Invoke prover (`abc`, `yices`, `z3`, etc.)
+
 # Debugging Symbolic Execution Failure
 
 * Invalid memory reads/writes
 
-    * Usually a result of failing to declare an input
+    * Usually a result of failing to declare an input (TODO: what)
 
     * Compile with `-g` to see where the read is happening
 
@@ -733,6 +766,8 @@ prove_print (unint_yices ["g"]) t2;
 # Onward to Continuous Integration
 
 TODO: make better
+
+TODO: mention wllvm again
 
 * SAW verification \alert{configurations} are manual
 
@@ -754,6 +789,8 @@ TODO: make better
 
 1. Unpack everything and put binaries in the `PATH`
 
+1. Build your code
+
 1. Run `saw` on a script file
 
     - Caching binaries (e.g., on S3) can improve reliability
@@ -774,6 +811,8 @@ TODO: make better
 
 * To experiment with changes, use branches (and tell Travis to build them)
 
+* TODO: travis link
+
 # Proof Maintenance
 
 * TODO: unchanged code easily reproved
@@ -784,6 +823,18 @@ TODO: make better
 
 * TODO: changes in interfaces (arguments and return types)
 
+# Proving HMAC in s2n
+
+TODO
+
+# Travis for s2n
+
+TODO
+
+# Handshake Proof Approach
+
+TODO
+
 # Exercises: Travis
 
 1. Create a new repository running SAW under Travis:
@@ -791,30 +842,11 @@ TODO: make better
     * Try the `ffs` example, or `xor-swap`
     * Get it to pass
 
-2. Experiment with changes to the code
+1. Experiment with changes to the code
 
     * Create a branch for a change (so you can delete a series of messy commits)
     * Make a mistake, push, observe the output
-
-# Future
-
-* Support for various languages
-
-    * Others that compile to LLVM (C++, Rust, etc.)
-
-    * Other languages that compile to JVM (Kotlin, Scala, etc.)
-
-    * Coming soon: Rust (directly), machine code (x86, ARM, PPC)
-
-* Some interactive proof tactics
-
-    * Potentially through bindings to Coq, Lean
-
-* API-based interface
-
-    * Write your scripts in Haskell, Python, etc.
-
-* Some unbounded programs
+    * TODO: travis link
 
 # More Complex Examples
 
@@ -826,14 +858,14 @@ TODO: make better
 
     * https://github.com/GaloisInc/saw-script/tree/master/examples/sv-comp
 
-# Future
+# Future of SAW
 
 * Better support for unbounded programs
 
     * Data: variable-size and variable-shape heap structures
     * Control: unbounded iteration
 
-* More flexible scripting language
+* More flexible/powerful scripting language
 
     * May expose SAWScript functions as an API for other languages (Python?)
 
@@ -841,7 +873,7 @@ TODO: make better
 
     * Partial support for Rust, Go, various forms of machine code
 
-# Final Points
+# Where to go from here (TODO)
 
 * Resources
 
