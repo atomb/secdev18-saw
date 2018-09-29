@@ -1,3 +1,6 @@
+[![Build
+Status](https://travis-ci.org/atomb/secdev18-saw.svg?branch=master)](https://travis-ci.org/atomb/secdev18-saw)
+
 This repository contains slides and examples for the 2018 IEEE SecDev
 tutorial entitled "Continuous Verification of Critical Software". We
 hope participants will use it to follow along with the tutorial, but
