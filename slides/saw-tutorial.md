@@ -106,7 +106,7 @@ void swap_xor(uint32_t *x, uint32_t *y) {
 * Focus on values, since that's where the tricky parts are
     * Pointers used just so it can be a separate function
 
-* TODO: file
+(See `xor-swap.c`.)
 
 ## A Specification for Swapping
 
@@ -419,19 +419,17 @@ print r;
 
 ## Exercises: FFS
 
-1. (TODO: remove) Run the equivalence proofs in `ffs_eq.saw` and `ffs_harness.saw`
-
-2. Port the FFS code to use `uint64_t`
+1. Port the FFS code to use `uint64_t`
 
     * Translate both reference and implementation
 
     * Try to prove equivalence (and don't worry if you fail)
 
-3. Try to break the FFS code, in obvious and subtle ways
+1. Try to break the FFS code, in obvious and subtle ways
 
     * Can you make it do the wrong thing and not be caught?
 
-4. Try to discover the "haystack" bug in `ffs_bug`
+1. Try to discover the "haystack" bug in `ffs_bug`
 
     * Use random testing (`ffs_bug_fail.saw`)
 
@@ -527,12 +525,12 @@ crucible_llvm_verify m "swap_xor" [] true swap_spec abc;
 
     * Use `swap.saw` or `swap_harness.saw`
 
-2. Write a buggy version and use SAW to find inputs for which it's
+1. Write a buggy version and use SAW to find inputs for which it's
    \alert{correct}
 
    * These would be bad test cases!
 
-3. Write a script to prove the FFS test harness using
+1. Write a script to prove the FFS test harness using
    `crucible_llvm_verify`
 
    * You'll need `crucible_return {{ 1 : [32] }}` and `crucible_term`
@@ -655,23 +653,19 @@ rr <- verify "s20_rowround"     [qr] rowround_setup;
 
 ## Exercises: Composition
 
-1. (TODO: remove) Run the monolithic and compositional proofs
-
-    * `salsa.saw` and `salsa-compositional.saw`
-
-2. Compare the timing of the two
+1. Compare the timing of the monolithic and compositional proofs
 
     * When checking multiple sizes, how does it compare?
 
     * How many sizes before composition becomes better?
 
-3. Try to break the code and see what happens
+1. Try to break the code and see what happens
 
     * First try a leaf function
 
     * Then try the top-level function
 
-4. Can you break it so that one size succeeds but another fails?
+1. Can you break it so that one size succeeds but another fails?
 
 # Additional SAW Details
 
@@ -705,7 +699,7 @@ rr <- verify "s20_rowround"     [qr] rowround_setup;
 
 * See `write_cnf.saw`
 
-## Unfolding and Simplification (TODO: unfold)
+## Unfolding and Simplification
 
 ~~~~
 sawscript> let {{ f x y = (x : [8]) + y }}
@@ -750,7 +744,7 @@ prove_print (unint_yices ["f"]) {{ prop2 }};
 ~~~~
 (See `unint.saw`.)
 
-## Rewriting (TODO: unfold)
+## Rewriting
 
 ~~~~
 let {{
@@ -846,15 +840,15 @@ prove_print (unint_yices ["g"]) t2;
 1. Download SAW binaries
     - From https://saw.galois.com/builds/nightly
 
-2. Download prover binaries
+1. Download prover binaries
     - Yices from http://yices.csl.sri.com
     - Z3 from https://github.com/Z3Prover/z3/releases
 
-3. Unpack everything and put binaries in the `PATH`
+1. Unpack everything and put binaries in the `PATH`
 
-4. Build your code (maybe using `wllvm`)
+1. Build your code (maybe using `wllvm`)
 
-5. Run `saw` on a script file
+1. Run `saw` on a script file
 
     - Caching binaries (e.g., on S3) can improve reliability
 
@@ -872,7 +866,7 @@ prove_print (unint_yices ["g"]) t2;
 
 * To experiment with changes, use branches (and tell Travis to build them)
 
-* TODO: travis link
+* Travis output: <https://travis-ci.org/atomb/secdev18-saw>
 
 ## Exercises: Travis
 
@@ -885,7 +879,7 @@ prove_print (unint_yices ["g"]) t2;
 
     * Create a branch for a change (so you can delete a series of messy commits)
     * Make a mistake, push, observe the output
-    * TODO: travis link
+    * Travis example: <https://travis-ci.org/atomb/secdev18-saw/builds/435026975>
 
 ## Proof Maintenance
 
@@ -903,35 +897,57 @@ prove_print (unint_yices ["g"]) t2;
 
 ## Proving HMAC in s2n
 
-TODO: Cryptol spec
+### NIST Document
 
-TODO: structure of C code
+$HMAC(k, m) = H((k_{0} \oplus opad) \| H((k_{0} \oplus ipad) \| m))$
 
-TODO: one proof for each of several hash algorithms, message sizes
+### Cryptol
 
-TODO: auxiliary proof done in Coq; expect to be possible in SAW before long
+~~~~
+hmac k m = H (opad # split (H (ipad # m)))
+  where
+    k0 = kinit H k
+    opad = [kb ^ 0x5C | kb <- k0]
+    ipad = [kb ^ 0x36 | kb <- k0]
+~~~~
+
+### C and Verification
+
+* ~200 lines of code, multiple functions
+
+* Low-level spec corresponding to each function
+
+* Proof between Cryptol specs in SAW (one lemma in Coq)
+
+* One proof for each of several hash algorithms, message sizes
+
+## Proof Approach
+
+* Abstract Cryptol spec derived from RFC or NIST document
+
+* Concrete spec matching what s2n implements
+  
+    * Incremental HMAC, subset of handshake protocol
+
+* Proof of refinement between two Cryptol specs
+
+* Proof of equivalence between low-level Cryptol and C
+
+\includegraphics[width=\textwidth]{images/proof-approach.pdf}
 
 ## Travis for s2n
 
-TODO: configured as one of many testing and analysis tasks for s2n
+* One of many testing and analysis tasks for s2n
 
-TODO: completes more quickly than many of the concrete tests
+* Run on every commit
 
-TODO: run on every commit
+* Completes in about the same time as the concrete tests
 
-TODO: link to page, to dig into details
+* See: <https://travis-ci.org/awslabs/s2n>
 
-## Handshake Proof Approach
+\includegraphics[width=\textwidth]{images/travis-s2n-tests.png}
 
-TODO: abstract spec derived from RFC
-
-TODO: concrete spec matching state machine s2n implements
-
-TODO: proof of refinement between two Cryptol specs
-
-TODO: proof of equivalence between low-level Cryptol and C
-
-TODO: proofs run in a few seconds (other time in Travis is setup, build)
+\includegraphics[width=\textwidth]{images/travis-s2n.png}
 
 # Wrapping Up
 
@@ -947,9 +963,9 @@ TODO: proofs run in a few seconds (other time in Travis is setup, build)
 
 * Proof of HMAC, DRBG, and the TLS handshake in s2n
 
-    * TODO: GitHub link
+    * GitHub: <https://github.com/awslabs/s2n/tree/master/tests/saw>
 
-    * TODO: paper link
+    * CAV Paper: <https://link.springer.com/chapter/10.1007/978-3-319-96142-2_26>
 
 ## Future of SAW
 
