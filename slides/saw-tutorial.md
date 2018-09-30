@@ -579,7 +579,7 @@ let ptr_to_fresh nm ty = do {
 };
 ~~~~
 
-## Composition: Verifying Salsa20 (C code)
+## Composition: Salsa20 (C code)
 
 ~~~~ .c
 uint32_t rotl(uint32_t value, int shift) {
@@ -988,17 +988,19 @@ hmac k m = H (opad # split (H (ipad # m)))
 
 ## Contributors
 
-Aaron Tomb, Adam Foltzer, Adam Wick, Andrey Chudnov, Andy Gill,
-Benjamin Barenblat, Ben Jones, Brian Huffman, Brian Ledger, David
-Christiansen, David Lazar, Dylan McNamee, Edward Yang, Edwin
-Westbrook, Eric Mertens, Fergus Henderson, Iavor Diatchki, Jeff
-Lewis, Jim Teisher, Joe Hendrix, Joe Hurd, Joe Kiniry, Joel Stanley,
-John Launchbury, John Matthews, Jonathan Daugherty, Kenneth Foner,
-Kyle Carter, Langston Barrett, Ledah Casburn, Lee Pike, Levent Erkök,
-Magnus Carlsson, Mark Shields, Mark Tullsen, Matt Sottile, Nathan
-Collins, Philip Weaver, Robert Dockins, Sally Browning, Sam
-Anklesaria, Sigbjørn Finne, Stephanie Weirich, Thomas Nordin, Trevor
-Elliott, Tristan Ravitch (TODO: check completeness)
+Aaron Tomb, Adam Foltzer, Adam Wick, Andrei Stefanescu, Andrey Chudnov,
+Andy Gill, Benjamin Barenblat, Ben Jones, Bill Hallahan, Brian Huffman,
+Brian Ledger, Daniel Wagner, David Christiansen, David Lazar, Dylan
+McNamee, Edward Yang, Edwin Westbrook, Eric Mertens, Eric Mullen, Fergus
+Henderson, Guannan Wei, Iavor Diatchki, Jeff Lewis, Jim Teisher, Joe
+Hendrix, Joe Hurd, Joe Kiniry, Joel Stanley, Joey Dodds, John
+Launchbury, John Matthews, Jonathan Daugherty, Kenneth Foner, Keshav
+Kini, Kevin Quick, Kyle Carter, Langston Barrett, Ledah Casburn, Lee
+Pike, Levent Erkök, Luke Maurer, Magnus Carlsson, Mark Shields, Mark
+Tullsen, Matt Sottile, Max Orhai, Nathan Collins, Philip Weaver, Robert
+Dockins, Robby, Sally Browning, Sam Anklesaria, Sigbjørn Finne,
+Stephanie Weirich, Thomas Nordin, Trevor Elliott, Tristan Ravitch
+
 
 ## Continuing with SAW
 
